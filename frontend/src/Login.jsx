@@ -1,16 +1,39 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useState } from 'react'
 import './style.css'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-export default function Login() {
+function Login() {
+
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    })
+    const navigate = useNavigate()
+    axios.defaults.withCredentials = true;
+    const [error, setError] = useState('')
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        axios.post('http://localhost:8081/login', values)
+        .then(res => {
+            if(res.data.Status === 'Success') {
+                navigate('/');
+            } else {
+                setError(res.data.Error);
+            }
+        })
+        .catch(err => console.log(err));
+    }
+
     return (
         <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
-            <div className='p-3 rounded w-25 loginForm border'>
-                {/* <div className='text-danger'>
+            <div className='p-3 rounded w-25 border loginForm'>
+                <div className='text-danger'>
                     {error && error}
-                </div> */}
+                </div>
                 <h2>Login</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='email' 
@@ -29,4 +52,4 @@ export default function Login() {
     )
 }
 
-
+export default Login

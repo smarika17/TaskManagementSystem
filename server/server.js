@@ -8,7 +8,13 @@ import jwt from 'jsonwebtoken'
 
 const app = express();
 
-app.use(cors());
+app.use(cors(
+    {
+        origin: ["http://localhost:5173"],
+        methods: ["POST", "GET", "PUT"],
+        credentials: true
+    }
+));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -16,6 +22,22 @@ const con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
+    database: "signup"
+})
+
+app.post('/login', (req, res) => {
+    const sql = "SELECT * FROM users Where email = ? AND  password = ?";
+    con.query(sql, [req.body.email, req.body.password], (err, result) => {
+        if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
+        if(result.length > 0) {
+            // const id = result[0].id;
+            // const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
+            // res.cookie('token', token);
+            return res.json({Status: "Success"})
+        } else {
+            return res.json({Status: "Error", Error: "Wrong Email or Password"});
+        }
+    })
 })
 
 con.connect(function(err) {
