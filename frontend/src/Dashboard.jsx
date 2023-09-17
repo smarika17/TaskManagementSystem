@@ -1,5 +1,6 @@
 import React from 'react'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import { Link, Outlet } from 'react-router-dom'
 
 export default function Dashboard() {
    return(
@@ -12,29 +13,34 @@ export default function Dashboard() {
                 </a>
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li className="nav-item">
-                        <a href="#" className="nav-link align-middle px-0">
-                            <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
+                        <a href="#" className="nav-link align-middle text-white px-0">
+                            <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Admin Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                        <Link to="/Home" className="nav-link px-0 align-middle text-white">
+                            <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span></Link>
                     </li>
                     <li>
-                        <a href="#" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Orders</span></a>
+                        <Link to="/Employee" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-white">
+                            <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Manage Employee</span> </Link>
                     </li>
                     <li>
-                        <a href="#" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Customers</span> </a>
+                        <Link to="/Profile" className="nav-link px-0 align-middle text-white">
+                            <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Profile</span></Link>
+                    </li>
+                    <li>
+                        <a href="#" className="nav-link px-0 align-middle text-white">
+                            <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Logout</span> </a>
                     </li>
                 </ul>  
             </div>
         </div>
         <div className="col p-0 m-0">
         <div className='p-2 d-flex justify-content-center shadow'>
-						<h4>Employee Management System</h4>						
+						<h4>Task Management System</h4>						
 					</div>
+                    <Outlet/>
         </div>
     </div>
 </div>
