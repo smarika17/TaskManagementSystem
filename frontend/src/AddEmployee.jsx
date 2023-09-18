@@ -29,41 +29,41 @@ function AddEmployee() {
 		.catch(err => console.log(err));
 	}
 	return (
-		<div className='d-flex flex-column align-items-center pt-4'>
+		<div classNameName='d-flex flex-column align-items-center pt-4'>
 			<h2>Add Employee</h2>
-			<form class="row g-3 w-50" onSubmit={handleSubmit}>
-			<div class="col-12">
-					<label for="inputName" class="form-label">Name</label>
-					<input type="text" class="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
+			<form className="row g-3 w-50" onSubmit={handleSubmit}>
+			<div className="col-12">
+					<label for="inputName" className="form-label">Name</label>
+					<input type="text" className="form-control" id="inputName" placeholder='Enter Name' autoComplete='off'
 					onChange={e => setData({...data, name: e.target.value})}/>
 				</div>
-				<div class="col-12">
-					<label for="inputEmail4" class="form-label">Email</label>
-					<input type="email" class="form-control" id="inputEmail4" placeholder='Enter Email' autoComplete='off'
+				<div className="col-12">
+					<label for="inputEmail4" className="form-label">Email</label>
+					<input type="email" className="form-control" id="inputEmail4" placeholder='Enter Email' autoComplete='off'
 					onChange={e => setData({...data, email: e.target.value})}/>
 				</div>
-				<div class="col-12">
-					<label for="inputPassword4" class="form-label">Password</label>
-					<input type="password" class="form-control" id="inputPassword4" placeholder='Enter Password'
+				<div className="col-12">
+					<label for="inputPassword4" className="form-label">Password</label>
+					<input type="password" className="form-control" id="inputPassword4" placeholder='Enter Password'
 					 onChange={e => setData({...data, password: e.target.value})}/>
 				</div>
-				<div class="col-12">
-					<label for="inputSalary" class="form-label">Salary</label>
-					<input type="text" class="form-control" id="inputSalary" placeholder="Enter Salary" autoComplete='off'
+				<div className="col-12">
+					<label for="inputSalary" className="form-label">Salary</label>
+					<input type="text" className="form-control" id="inputSalary" placeholder="Enter Salary" autoComplete='off'
 					onChange={e => setData({...data, salary: e.target.value})}/>
 				</div>
-				<div class="col-12">
-					<label for="inputAddress" class="form-label">Address</label>
-					<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" autoComplete='off'
+				<div className="col-12">
+					<label for="inputAddress" className="form-label">Address</label>
+					<input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" autoComplete='off'
 					onChange={e => setData({...data, address: e.target.value})}/>
 				</div>
-				<div class="col-12 mb-3">
-					<label class="form-label" for="inputGroupFile01">Select Image</label>
-					<input type="file" class="form-control" id="inputGroupFile01"
+				<div className="col-12 mb-3">
+					<label className="form-label" for="inputGroupFile01">Select Image</label>
+					<input type="file" className="form-control" id="inputGroupFile01"
 					onChange={e => setData({...data, image: e.target.files[0]})}/>
 				</div>
-				<div class="col-12">
-					<button type="submit" class="btn btn-primary">Create</button>
+				<div className="col-12">
+					<button type="submit" className="btn btn-primary">Create</button>
 				</div>
 			</form>
 		</div>

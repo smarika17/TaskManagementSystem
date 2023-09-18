@@ -19,6 +19,7 @@ app.use(cors(
 ));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static('public'));
 
 const con = mysql.createConnection({
     host: "localhost",
@@ -37,6 +38,51 @@ const storage = multer.diskStorage({
 })
 const upload = multer({
     storage: storage
+})
+
+con.connect(function(err) {
+    if(err) {
+        console.log("Error in Connection ");
+    } else {
+        console.log("Connected");
+    }
+})
+
+
+app.get('/getEmployee', (req, res) => {
+    const sql = "SELECT * FROM employee";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Error: "Get employee error in sql"});
+        return res.json({Status: "Success", Result: result})
+    })
+})
+
+app.put('/update/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "UPDATE employee set salary = ? WHERE id = ?";
+    con.query(sql, [req.body.salary, id], (err, result) => {
+        if(err) return res.json({Error: "update employee error in sql"});
+        return res.json({Status: "Success"})
+    })
+})
+
+app.delete('/delete/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "Delete FROM employee WHERE id = ?";
+    con.query(sql, [id], (err, result) => {
+        if(err) return res.json({Error: "delete employee error in sql"});
+        return res.json({Status: "Success"})
+    })
+})
+
+
+app.get('/get/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM employee where id = ?";
+    con.query(sql, [id], (err, result) => {
+        if(err) return res.json({Error: "Get employee error in sql"});
+        return res.json({Status: "Success", Result: result})
+    })
 })
 
 
@@ -72,14 +118,6 @@ app.post('/create',upload.single('image'), (req, res) =>{
             return res.json({Status: "Success"});
         })
     } )
-})
-
-con.connect(function(err) {
-    if(err) {
-        console.log("Error in Connection ");
-    } else {
-        console.log("Connected");
-    }
 })
 
 
