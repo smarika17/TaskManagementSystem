@@ -13,7 +13,7 @@ const app = express();
 app.use(cors(
     {
         origin: ["http://localhost:5173"],
-        methods: ["POST", "GET", "PUT"],
+        methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
 ));
@@ -48,6 +48,19 @@ con.connect(function(err) {
     }
 })
 
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if(!token) {
+        return res.json({Error: "You are no Authenticated"});
+    } else {
+        jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+            if(err) return res.json({Error: "Token wrong"});
+            req.role = decoded.role;
+            req.id = decoded.id;
+            next();
+        } )
+    }
+}
 
 app.get('/getEmployee', (req, res) => {
     const sql = "SELECT * FROM employee";
@@ -56,6 +69,37 @@ app.get('/getEmployee', (req, res) => {
         return res.json({Status: "Success", Result: result})
     })
 })
+
+
+app.get('/dashboard',verifyUser, (req, res) => {
+    return res.json({Status: "Success", role: req.role, id: req.id})
+})
+
+app.get('/adminCount', (req, res) => {
+    const sql = "Select count(id) as admin from users";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Error: "Error in runnig query"});
+        return res.json(result);
+    })
+})
+
+app.get('/employeeCount', (req, res) => {
+    const sql = "Select count(id) as employee from employee";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Error: "Error in runnig query"});
+        return res.json(result);
+    })
+})
+
+app.get('/salary', (req, res) => {
+    const sql = "Select sum(salary) as sumOfSalary from employee";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Error: "Error in runnig query"});
+        return res.json(result);
+    })
+})
+
+
 
 app.put('/update/:id', (req, res) => {
     const id = req.params.id;
@@ -91,9 +135,9 @@ app.post('/login', (req, res) => {
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
         if(err) return res.json({Status: "Error", Error: "Error in runnig query"});
         if(result.length > 0) {
-            // const id = result[0].id;
-            // const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
-            // res.cookie('token', token);
+            const id = result[0].id;
+            const token = jwt.sign({role: "admin"}, "jwt-secret-key", {expiresIn: '1d'});
+            res.cookie('token', token);
             return res.json({Status: "Success"})
         } else {
             return res.json({Status: "Error", Error: "Wrong Email or Password"});
@@ -120,6 +164,10 @@ app.post('/create',upload.single('image'), (req, res) =>{
     } )
 })
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('token');
+    return res.json({Status: "Success"});
+})
 
 app.listen(8081, ()=> {
     console.log("Running");

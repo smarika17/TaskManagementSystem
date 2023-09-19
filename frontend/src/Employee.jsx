@@ -17,6 +17,7 @@ function Employee() {
     .catch(err => console.log(err));
   }, [])
 
+  
   const handleDelete = (id) => {
     axios.delete('http://localhost:8081/delete/'+id)
     .then(res => {
@@ -28,6 +29,7 @@ function Employee() {
     })
     .catch(err => console.log(err));
   }
+
 
   return (
     <div className='px-5 py-3'>
