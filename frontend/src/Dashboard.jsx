@@ -4,6 +4,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 
+
 export default function Dashboard() {
     const navigate = useNavigate()
 	axios.defaults.withCredentials = true;
@@ -18,7 +19,7 @@ export default function Dashboard() {
 					navigate('/employeedetail/'+id)
 				}
 			} else {
-				navigate('/login')
+				navigate('/start')
 			}
 		})
 	}, [])
@@ -26,7 +27,7 @@ export default function Dashboard() {
     const handleLogout=()=>{
         axios.get('http://localhost:8081/logout')
         .then(res => {
-			navigate('/login')
+			navigate('/start')
 		}).catch(err => console.log(err));
 	}
    return(
